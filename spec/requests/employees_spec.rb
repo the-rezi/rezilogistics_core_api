@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Employees API', type: :request do
 	#initialize test data
-	let!(:employees) { create_employees(:employees, 10)}
+	let!(:employees) { create_list(:employees, 10)}
 	let(:employee_id) { employee.first.id }
 
 	# Test suite for GET /employees
