@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'Customers API', type: :request do
 	#initialize test data
-	let!(:customers) { create_list(:customer, 10)}
-	let(:customer_id) { customer.first.id }
+	let!(:customers) { create_list(:customers, 10)}
+	let(:customers_id) { customers.first.id }
 
 	# Test suite for GET /customers
 	describe 'GET /customers' do
@@ -28,7 +28,7 @@ RSpec.describe 'Customers API', type: :request do
 		context 'when the record exists' do
 			it 'returns the customer' do
 				expect(json).not_to be_empty
-				expect(json['id']).to eq(customer_id)
+				expect(json['id']).to eq(customers_id)
 			end
 
 			it 'returns status code 200' do
@@ -37,7 +37,7 @@ RSpec.describe 'Customers API', type: :request do
 		end
 
 		context 'when the record does not exist' do
-			let(:customer_id) { 100 }
+			let(:customers_id) { 100 }
 
 			it 'returns status code 404' do
 				expect(response).to have_http_status(404)
@@ -83,7 +83,7 @@ RSpec.describe 'Customers API', type: :request do
 		let(:valid_attributes) { { name: 'Ms. Jane' } }
 
 		context 'when the record exists' do
-			before { put "/customers/#{customer_id}", params: valid_attributes }
+			before { put "/customers/#{customers_id}", params: valid_attributes }
 
 			it 'updates the record' do
 				expect(response.body).to be_empty
@@ -97,7 +97,7 @@ RSpec.describe 'Customers API', type: :request do
 
 	# Test suite for DELETE /customers/:id
 	describe 'DELETE /customers/:id' do
-		before { delete "/customers/#{customer_id}" }
+		before { delete "/customers/#{customers_id}" }
 
 		it 'returns status code 204' do
 			expect(response).to have_http_status(204)
