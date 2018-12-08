@@ -1,8 +1,9 @@
 require 'rails_helper'
+class Customers; end
 
 RSpec.describe 'Customers API', type: :request do
 	#initialize test data
-	let!(:customers) { create_list(:customers, 10)}
+	let!(:customers) { create(:customers)}
 	let(:customers_id) { customers.first.id }
 
 	# Test suite for GET /customers
