@@ -3,8 +3,8 @@ class Customers; end
 
 RSpec.describe 'Customers API', type: :request do
 	#initialize test data
-	let!(:customers) { create(:customers)}
-	let(:customers_id) { customers.first.id }
+	let!(:customers) { create(:customer)}
+	let(:customers_id) { customers.id }
 
 	# Test suite for GET /customers
 	describe 'GET /customers' do
@@ -14,7 +14,7 @@ RSpec.describe 'Customers API', type: :request do
 		it 'returns customers' do
 			# Note 'json' is a custom helper to parse JSON responses
 			expect(json).not_to be_empty
-			expect(json.size).to eq(10)
+			expect(json.size).to eq(1)
 		end
 
 		it 'returns status code 200' do
@@ -24,7 +24,7 @@ RSpec.describe 'Customers API', type: :request do
 
 	# Test suite for GET /customers/:id
 	describe 'GET /customers/:id' do
-		before { get "/customers/#{customer_id}" }
+		before { get "/customers/#{customers_id}" }
 
 		context 'when the record exists' do
 			it 'returns the customer' do
@@ -59,6 +59,9 @@ RSpec.describe 'Customers API', type: :request do
 
 			it 'creates a customer' do 
 				expect(json['name']).to eq('Merry Jane')
+				expect(json['address']).to eq('123 Merry Lane Chicago, IL')
+				expect(json['major_intersection']).to eq('Dun & Bradstreet')
+				expect(json['phone_number']).to eq('1234567890')
 			end
 
 			it 'returns status code 201' do 
@@ -67,7 +70,7 @@ RSpec.describe 'Customers API', type: :request do
 		end
 
 		context 'when the request is invalid' do 
-			before { post '/customers', params: { name: 'Foobar' } }
+			before { post '/customers', params: { name: 'Foobar'} }
 
 			it 'returns status code 422' do
 				expect(response).to have_http_status(422)

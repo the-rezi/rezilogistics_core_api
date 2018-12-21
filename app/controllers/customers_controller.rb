@@ -7,7 +7,7 @@ class CustomersController < ApplicationController
 		json_response(@customers)
 	end
 
-	# POST /customers
+	# POST /customer
 	def create
 		@customer = Customer.create!(customer_params)
 		json_response(@customer, :created)
